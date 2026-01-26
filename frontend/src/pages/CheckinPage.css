@@ -1,0 +1,110 @@
+:root {
+    --page-gradient: linear-gradient(135deg, #7cc4ff 0%, #6f7af2 45%, #5a45c4 100%);
+    --cta-gradient: linear-gradient(135deg, #6aa7ff 0%, #7c52e2 100%);
+    --text-primary: #6573f4;
+    --text-muted: #6d6d6d;
+    --card-shadow: 0 28px 60px rgba(47, 65, 163, 0.25);
+}
+
+.checkin-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--page-gradient);
+}
+
+.checkin-card {
+    width: min(520px, 100%);
+    background: #fff;
+    border-radius: 24px;
+    padding: 48px 56px 56px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 40px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.label {
+    text-align: left;
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 2px solid #6e8bff;
+    outline: none;
+    background: #f9fbff;
+    color: #2f2f2f;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.input::placeholder {
+    color: #9aa3b5;
+}
+
+.input:focus {
+    border-color: #556ef8;
+    box-shadow: 0 0 0 4px rgba(102, 118, 244, 0.15);
+}
+
+.cta {
+    margin: 16px auto 0;
+    min-width: 150px;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    background: var(--cta-gradient);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(90, 69, 196, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.cta:hover {
+    filter: brightness(1.03);
+    box-shadow: 0 16px 32px rgba(90, 69, 196, 0.36);
+}
+
+.cta:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 540px) {
+    .checkin-card {
+        padding: 40px 28px 44px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+}
