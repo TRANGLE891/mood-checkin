@@ -1,10 +1,17 @@
 import axios from 'axios'
 import { API_BASE_URL } from './common';
+import type { User } from '../types/User';
 
 const API_PATH = API_BASE_URL + 'users';
 
 export const getUsers = () => {
-    return axios.get(`${API_PATH}`);
+    return axios.get(`${API_PATH}`) as Promise<{
+        data: {
+            count: number,
+            data: User[],
+            status: "success" | "error"
+        }
+    }>;
 }
 
 export const createUser = async (username: string, fullName: string | null = null) => {

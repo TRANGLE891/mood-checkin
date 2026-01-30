@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import './heartPage.css'
+import { useGlobalContext } from '../context/globalContext'
 
 type HeartMood = {
     key: string
@@ -16,6 +17,7 @@ const hearts: HeartMood[] = [
 ]
 
 export const HeartPage = () => {
+    const { user } = useGlobalContext();
     return (
         <div className="heart-page">
             <div className="device">
@@ -23,7 +25,7 @@ export const HeartPage = () => {
                     <Link to="/" className="back" aria-label="Back to Home">
                         ← Back to Home
                     </Link>
-                    <div className="user">User: "userName" </div>
+                    <div>User: {user?.username}</div>
                 </header>
 
                 <section className="hearts-row" aria-label="Heart moods">
