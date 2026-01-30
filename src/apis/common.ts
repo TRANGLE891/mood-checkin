@@ -1,0 +1,1 @@
+export const API_BASE_URL = 'https://sample-springboot-5h49i.ondigitalocean.app/api/';
