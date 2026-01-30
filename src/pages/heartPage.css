@@ -69,10 +69,10 @@
 
 .heart-shape {
     display: block;
-    width: 64px;
-    height: 56px;
+    width: 70px;
+    height: 64px;
     margin: 0 auto 8px;
-    clip-path: polygon(50% 88%, 16% 56%, 0 34%, 16% 12%, 34% 0, 50% 18%, 66% 0, 84% 12%, 100% 34%, 84% 56%);
+    clip-path: path('M35,58 C35,58 8,40 8,25 C8,15 15,8 23,8 C28,8 32,10 35,14 C38,10 42,8 47,8 C55,8 62,15 62,25 C62,40 35,58 35,58 Z');
     box-shadow: 0 8px 14px rgba(0, 0, 0, 0.12);
 }
 
