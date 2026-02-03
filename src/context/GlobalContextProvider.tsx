@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import type { User, UserMood } from "../types/User";
+import type { User } from "../types/User";
 import { GlobalContext } from "./globalContext";
 import { getUserByUsername } from "../apis/users";
 import type { Mood } from "../types/Mood";
 import { getMoods } from "../apis/moods";
+import type { UserMood } from "../types/UserMood";
 
 export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 

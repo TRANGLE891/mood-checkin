@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { API_BASE_URL } from './common';
-import type { UserMood } from '../types/User';
+import type { UserMood } from '../types/UserMood';
 
 const API_PATH = API_BASE_URL + 'user-moods';
 
 export const getUserMoodsByUserId = (userId: string) => {
-    return axios.get(`${API_PATH}/user/${userId}`);
+    return axios.get(`${API_PATH}/user/${userId}`) as Promise<{ data: { data: UserMood[] } }>;
 }
 
 export const createUserMood = async ({

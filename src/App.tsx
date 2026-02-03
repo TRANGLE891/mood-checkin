@@ -4,6 +4,7 @@ import { CheckinPage } from './pages/CheckinPage'
 import { GlobalContextProvider } from './context/GlobalContextProvider'
 import { HeartPage } from './pages/HeartPage'
 import { DiaryNotePage } from './pages/DiaryNotePage'
+import { MoodAnalyticsPage } from './pages/MoodAnalyticsPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<CheckinPage />} />
         <Route path="/heart" element={<HeartPage />} />
         <Route path="/diary/:mood" element={<DiaryNotePage />} />
+        <Route path="/mood-analytics" element={<MoodAnalyticsPage />} />
       </Routes>
     </GlobalContextProvider>
   )

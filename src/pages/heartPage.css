@@ -184,3 +184,13 @@
         min-width: unset;
     }
 }
+
+.explore-button {
+    margin-top: 16px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+}

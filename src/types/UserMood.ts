@@ -1,7 +1,13 @@
+import type { User } from "./User";
+
 export type UserMood = {
     id: string;
-    mood_name: string;
-    note: string;
-    suggested_activity: string;
-    user_id: string;
+    user: User;
+    mood: {
+        name: string;
+        quotes?: string[];
+        image_url?: string;
+    };
+    note?: string;
+    suggestedActivity?: string;
 }

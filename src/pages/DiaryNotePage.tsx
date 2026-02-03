@@ -38,10 +38,15 @@ export const DiaryNotePage = () => {
     const { user, moods, userMood, signout } = useGlobalContext()
 
     const currentMoodObj = mood ? moods[mood] : undefined;
-    const randomQuote = useMemo(() => {
+
+    const randomQuoteIndex = useMemo(() => {
+        console.log('Calculating random quote index', currentMoodObj?.quotes.length);
         // eslint-disable-next-line react-hooks/purity
-        return currentMoodObj?.quotes[Math.floor(Math.random() * currentMoodObj.quotes.length)];
-    }, [currentMoodObj?.quotes])
+        return Math.floor(Math.random() * (currentMoodObj?.quotes.length || 0));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const randomQuote = currentMoodObj?.quotes[randomQuoteIndex] || '';
 
     const [note, setNote] = useState('')
     const [isSaved, setIsSaved] = useState(false)
