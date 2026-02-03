@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { API_BASE_URL } from './common';
+import type { UserMood } from '../types/User';
 
-const API_PATH = API_BASE_URL + '/api/user-moods';
+const API_PATH = API_BASE_URL + 'user-moods';
 
 export const getUserMoodsByUserId = (userId: string) => {
     return axios.get(`${API_PATH}/user/${userId}`);
@@ -30,3 +31,15 @@ export const createUserMood = async ({
         }
     });
 }
+
+export const updateUserMood = async (payload: Partial<Pick<UserMood, 'id' | 'note' | 'suggestedActivity'>>) => {
+    if (!payload.id) {
+        throw new Error('UserMood ID is required for update');
+    }
+
+    return axios.put(`${API_PATH}/${payload.id}`, payload, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}       

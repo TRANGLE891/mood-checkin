@@ -1,0 +1,204 @@
+.dairy-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    background: linear-gradient(135deg, #ff7676, #e53935);
+    transition: background 0.5s ease;
+}
+
+.dairy-device {
+    width: min(900px, 100%);
+    background: #fdfcf9;
+    border-radius: 24px;
+    padding: 28px 32px 40px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.dairy-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #6a6a6a;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dairy-back {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    color: #6a6a6a;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.dairy-back:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #2e2e2e;
+}
+
+.dairy-user {
+    font-weight: 500;
+    color: #2e2e2e;
+}
+
+.dairy-header {
+    text-align: center;
+    margin: 12px 0;
+}
+
+.dairy-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.dairy-image-container {
+    width: 100%;
+    height: 280px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.dairy-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dairy-quote-section {
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 4px solid #ff7676;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.dairy-quote {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2e2e2e;
+    margin: 0;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.dairy-note-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.dairy-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    color: #2e2e2e;
+    background: #fff;
+    resize: vertical;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dairy-textarea:focus {
+    outline: none;
+    border-color: #ff7676;
+    box-shadow: 0 4px 16px rgba(255, 118, 118, 0.15);
+}
+
+.dairy-textarea::placeholder {
+    color: #b0b0b0;
+    font-size: 16px;
+}
+
+.dairy-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.dairy-save-button {
+    background: linear-gradient(135deg, #ff7676, #e53935);
+    color: #fff;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 118, 118, 0.3);
+    min-width: 180px;
+}
+
+.dairy-save-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 118, 118, 0.4);
+}
+
+.dairy-save-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.dairy-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.dairy-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #6a6a6a;
+    margin-top: 12px;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .dairy-device {
+        padding: 20px 16px 32px;
+        gap: 16px;
+    }
+
+    .dairy-title {
+        font-size: 20px;
+    }
+
+    .dairy-image-container {
+        height: 200px;
+    }
+
+    .dairy-textarea {
+        min-height: 120px;
+        font-size: 14px;
+        padding: 16px;
+    }
+
+    .dairy-save-button {
+        padding: 12px 32px;
+        font-size: 14px;
+    }
+
+    .dairy-quote {
+        font-size: 16px;
+    }
+}

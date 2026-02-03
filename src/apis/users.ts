@@ -4,6 +4,15 @@ import type { User } from '../types/User';
 
 const API_PATH = API_BASE_URL + 'users';
 
+export const getUserByUsername = (username: string) => {
+    return axios.get(`${API_PATH}/username/${username}`) as Promise<{
+        data: {
+            data: User | null,
+            status: "success" | "error"
+        }
+    }>;
+}
+
 export const getUsers = () => {
     return axios.get(`${API_PATH}`) as Promise<{
         data: {
@@ -24,7 +33,7 @@ export const createUser = async (username: string, fullName: string | null = nul
                 'Content-Type': 'application/json'
             }
         });
-        return response.data;
+        return response.data?.data as User;
     } catch (error) {
         console.error('Error creating user:', error);
         throw error;
