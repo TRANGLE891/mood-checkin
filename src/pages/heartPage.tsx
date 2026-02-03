@@ -5,7 +5,7 @@ import { createUserMood } from '../apis/userMoods.ts'
 import { hearts } from '../constants.ts'
 
 export const HeartPage = () => {
-    const { user, setUserMood, signout } = useGlobalContext();
+    const { user, signout } = useGlobalContext();
     const navigate = useNavigate();
 
     const handleHeartClick = async (moodKey: string) => {
@@ -22,9 +22,7 @@ export const HeartPage = () => {
         if (!createdUserMood) {
             throw new Error('Failed to create user mood entry');
         }
-
-        setUserMood(createdUserMood);
-        navigate(`/diary/${moodKey}`);
+        navigate(`/diary/${createdUserMood.id}`);
     };
 
     if (!user) {

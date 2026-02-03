@@ -5,15 +5,21 @@ import type { UserMood } from '../types/UserMood';
 import './MoodAnalyticsPage.css';
 import { useGlobalContext } from '../context/globalContext';
 import { hearts } from '../constants';
-
-const COLORS = hearts.map(heart => heart.baseColor);
-
+import { useNavigate } from 'react-router-dom'
 export function MoodAnalyticsPage() {
-    const { user } = useGlobalContext()
+    const { user, signout } = useGlobalContext()
     const [userMoods, setUserMoods] = useState<UserMood[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate()
+    const handleBack = () => {
+        navigate('/heart')
+    }
 
+    const onUserMoodItemClicked = (item: UserMood) => {
+        console.log('Clicked mood item:', item);
+        navigate(`/diary/${item.id}`);
+    }
     useEffect(() => {
         if (!user) {
             setError('User not logged in');
@@ -63,9 +69,17 @@ export function MoodAnalyticsPage() {
         return <div className="mood-analytics-container">No mood data available</div>;
     }
 
+    const sortedUserMoods = [...userMoods].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
     return (
         <div className="mood-analytics-container">
             <h1>Mood Analytics</h1>
+            <button className="dairy-back" onClick={handleBack} aria-label="Back to Hearts">
+                ← Back
+            </button>
+            <div className="dairy-user">User: {user?.username}</div>
+            <div><button onClick={signout}>Sign out</button></div>
+
             <p className="mood-summary">Total check-ins: {userMoods.length}</p>
 
             <div className="chart-wrapper">
@@ -76,7 +90,7 @@ export function MoodAnalyticsPage() {
                             cx="50%"
                             cy="50%"
                             labelLine={false}
-                            label={({ name, value, percent }) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
+                            label={({ name, value, percent }) => `${name}: ${value} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                             outerRadius={120}
                             fill="#8884d8"
                             dataKey="value"
@@ -91,26 +105,26 @@ export function MoodAnalyticsPage() {
                 </ResponsiveContainer>
             </div>
 
-            <div className="mood-details">
+            <div className='mood-details'>
                 <h2>Note for each moods</h2>
-                {chartData.map((mood) => {
-                    const moodNotes = userMoods.filter(um => um.mood.name === mood.name);
-                    const nonEmptyNotes = moodNotes.filter(um => um.note && um.note.trim() !== '');
-
-                    return (
-                        <div key={mood.name} style={{ marginBottom: '24px' }}>
-                            <h3>{mood.name} ({moodNotes.length} check-ins)</h3>
-                            <ul>
-                                {nonEmptyNotes.length ? nonEmptyNotes.map((um, index) => (
-                                    <li key={`${um.id}-${index}`}>
-                                        {um.note}
-                                    </li>
-                                )) : <li><em>No notes</em></li>}
-                            </ul>
-                        </div>
-                    );
-                })}
+                <div style={{ display: 'flex' }}>
+                    {sortedUserMoods.map((item) => {
+                        return (
+                            <div style={{
+                                padding: '12px',
+                                margin: '4px',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                // background opacity: 0.6,
+                                background: `${hearts.find(h => h.key === item.mood.name.toLowerCase())?.baseColor || '#f0f0f0'}70`,
+                            }} key={item.createdAt} onClick={() => onUserMoodItemClicked(item)}>
+                                <h5>{new Date(item.createdAt).toLocaleString()}</h5>
+                                <div>{item.note ? item.note : <em>No notes</em>}</div>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </div >
     );
 }

@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<CheckinPage />} />
         <Route path="/heart" element={<HeartPage />} />
-        <Route path="/diary/:mood" element={<DiaryNotePage />} />
+        <Route path="/diary/:userMoodId" element={<DiaryNotePage />} />
         <Route path="/mood-analytics" element={<MoodAnalyticsPage />} />
       </Routes>
     </GlobalContextProvider>

@@ -1,73 +1,46 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './DiaryNotePage.css'
 import { useGlobalContext } from '../context/globalContext.tsx'
-import { updateUserMood } from '../apis/userMoods.ts'
-
-type MoodContent = {
-    gradient: string
-    imageUrl: string
-}
-
-const moodContents: Record<string, MoodContent> = {
-    sad: {
-        gradient: 'linear-gradient(135deg, #4b4b4b, #1d1d1d)',
-        imageUrl: '/images/sad.png',
-    },
-    peaceful: {
-        gradient: 'linear-gradient(135deg, #62a1ff, #3a63ff)',
-        imageUrl: '/images/peace.png',
-    },
-    energetic: {
-        gradient: 'linear-gradient(135deg, #6dd365, #34a853)',
-        imageUrl: '/images/energetic.png',
-    },
-    joyful: {
-        gradient: 'linear-gradient(135deg, #ffde70, #f2b632)',
-        imageUrl: '/images/joyful.png',
-    },
-    beloved: {
-        gradient: 'linear-gradient(135deg, #ff7676, #e53935)',
-        imageUrl: '/images/beloved.png',
-    }
-}
+import { getUserMoodsByUserId, updateUserMood } from '../apis/userMoods.ts'
+import type { UserMood } from '../types/UserMood.ts'
+import { hearts } from '../constants.ts'
 
 export const DiaryNotePage = () => {
-    const { mood } = useParams<{ mood: string }>()
+    const { userMoodId } = useParams<{ userMoodId: string }>()
     const navigate = useNavigate()
-    const { user, moods, userMood, signout } = useGlobalContext()
-
-    const currentMoodObj = mood ? moods[mood] : undefined;
-
-    const randomQuoteIndex = useMemo(() => {
-        console.log('Calculating random quote index', currentMoodObj?.quotes.length);
-        // eslint-disable-next-line react-hooks/purity
-        return Math.floor(Math.random() * (currentMoodObj?.quotes.length || 0));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    const randomQuote = currentMoodObj?.quotes[randomQuoteIndex] || '';
-
+    const { user, signout } = useGlobalContext()
+    const [userMood, setUserMood] = useState<UserMood>()
+    const [isLoadingUserMood, setIsLoadingUserMood] = useState(true)
     const [note, setNote] = useState('')
     const [isSaved, setIsSaved] = useState(false)
 
-    const content = mood ? moodContents[mood] : undefined;
+    const randomQuoteIndex = useMemo(() => {
+        // eslint-disable-next-line react-hooks/purity
+        return Math.random();
+    }, [])
 
-    const handleSave = () => {
-        if (!userMood) {
-            throw new Error('No user mood entry to update');
+    useEffect(() => {
+        if (!userMoodId || !user?.id) {
+            setIsLoadingUserMood(false);
+            return;
         }
 
-        console.log(`Saved note for ${mood}:`, note)
-        setIsSaved(true)
-        updateUserMood({
-            id: userMood.id,
-            note: note
+        getUserMoodsByUserId(user.id).then(response => {
+            const foundUserMood = response.data?.data?.find(item => `${item.id}` === userMoodId);
+            if (foundUserMood) {
+                setUserMood(foundUserMood);
+                setNote(foundUserMood.note || '');
+            } else {
+                console.warn(`UserMood with id ${userMoodId} not found for user.`);
+            }
+        }).finally(() => {
+            setIsLoadingUserMood(false);
         })
-    }
+    }, [user?.id, userMoodId])
 
-    const handleBack = () => {
-        navigate('/heart')
+    if (isLoadingUserMood) {
+        return <div>Loading user mood...</div>;
     }
 
     if (!user) {
@@ -80,14 +53,31 @@ export const DiaryNotePage = () => {
         return <div>No user mood entry.</div>
     }
 
-    if (!currentMoodObj) {
-        return <div>Unknown mood entry. {mood}</div>
+    const content = hearts.find(h => h.key === userMood.mood.name.toLowerCase());
+    if (!userMood) {
+        return <div>Missing user mood entry</div>
     }
-
     if (!content) {
-        return <div>Missing content for mood entry {mood}</div>
+        return <div>Unsupported mood type: {userMood.mood.name}</div>
+    }
+    const randomQuote = userMood?.mood?.quotes?.[Math.floor((userMood?.mood?.quotes?.length ?? 0) * randomQuoteIndex)];
+
+    const handleSave = () => {
+        if (!userMood) {
+            throw new Error('No user mood entry to update');
+        }
+
+        console.log(`Saved note for ${userMood.mood?.name}:`, note)
+        setIsSaved(true)
+        updateUserMood({
+            id: userMood.id,
+            note: note
+        })
     }
 
+    const handleBack = () => {
+        navigate('/heart')
+    }
 
     return (
         <div className="dairy-page" style={{ background: content?.gradient }}>
@@ -102,7 +92,7 @@ export const DiaryNotePage = () => {
                 <div className="dairy-image-container">
                     <img
                         src={content.imageUrl}
-                        alt={`Mood: ${mood}`}
+                        alt={`Mood: ${userMood.mood.name}`}
                         className="dairy-image"
                     />
                 </div>

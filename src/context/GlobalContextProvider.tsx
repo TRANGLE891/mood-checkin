@@ -4,19 +4,18 @@ import { GlobalContext } from "./globalContext";
 import { getUserByUsername } from "../apis/users";
 import type { Mood } from "../types/Mood";
 import { getMoods } from "../apis/moods";
-import type { UserMood } from "../types/UserMood";
-
+import { useNavigate } from 'react-router-dom'
 export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const savedUserName = localStorage.getItem('username');
     const [user, setUser] = useState<User | undefined>();
     const [moods, setMoods] = useState<Record<string, Mood>>({});
-    const [userMood, setUserMood] = useState<UserMood>();
-
+    const navigate = useNavigate();
     const signout = useCallback(() => {
         localStorage.removeItem('username');
         setUser(undefined);
-    }, [])
+        navigate('/heart')
+    }, [navigate])
 
     // check if current user in local storage exist
     useEffect(() => {
@@ -49,8 +48,6 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             user,
             setUser,
             moods,
-            userMood,
-            setUserMood,
             signout
         }}>
             {children}
