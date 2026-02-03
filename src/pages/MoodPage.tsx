@@ -4,7 +4,7 @@ import { useGlobalContext } from '../context/globalContext'
 import { createUserMood } from '../apis/userMoods'
 import { hearts } from '../constants'
 
-export const HeartPage = () => {
+export const MoodPage = () => {
     const { user, signout } = useGlobalContext();
     const navigate = useNavigate();
 
