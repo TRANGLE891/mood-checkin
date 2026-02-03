@@ -4,8 +4,8 @@ import type { User } from '../types/User';
 
 const API_PATH = API_BASE_URL + 'users';
 
-export const getUserByUsername = (username: string) => {
-    return axios.get(`${API_PATH}/username/${username}`) as Promise<{
+export const getUserByUsername = (username: string, opt?: { validateStatus?: (status: number) => boolean }) => {
+    return axios.get(`${API_PATH}/username/${username}`, opt) as Promise<{
         data: {
             data: User | null,
             status: "success" | "error"

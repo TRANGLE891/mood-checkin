@@ -82,7 +82,7 @@ export function MoodAnalyticsPage() {
                             dataKey="value"
                         >
                             {chartData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                <Cell key={`cell-${index}`} fill={hearts.find(h => h.key === entry.name)?.baseColor || '#8884d8'} />
                             ))}
                         </Pie>
                         <Tooltip formatter={(value) => `${value} check-ins`} />

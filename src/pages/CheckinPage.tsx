@@ -16,7 +16,10 @@ export const CheckinPage = () => {
 
         console.log(`Checking if user ${username} exists and creating if not.`);
 
-        let user = (await getUserByUsername(username)).data?.data
+        let user = (await getUserByUsername(username, {
+            // Allow 404, don't throw error 
+            validateStatus: (status) => status === 404 || (status >= 200 && status < 300)
+        })).data?.data
         if (user) {
             console.log(`User ${username} already exists.`);
             localStorage.setItem('username', username);
