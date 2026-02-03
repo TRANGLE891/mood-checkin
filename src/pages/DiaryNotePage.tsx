@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import './DiaryNotePage.css'
-import { useGlobalContext } from '../context/globalContext.tsx'
-import { getUserMoodsByUserId, updateUserMood } from '../apis/userMoods.ts'
-import type { UserMood } from '../types/UserMood.ts'
-import { hearts } from '../constants.ts'
+import { useGlobalContext } from '../context/globalContext'
+import { getUserMoodsByUserId, updateUserMood } from '../apis/userMoods'
+import type { UserMood } from '../types/UserMood'
+import { hearts } from '../constants'
 
 export const DiaryNotePage = () => {
     const { userMoodId } = useParams<{ userMoodId: string }>()

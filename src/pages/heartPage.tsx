@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import './HeartPage.css'
-import { useGlobalContext } from '../context/globalContext.tsx'
-import { createUserMood } from '../apis/userMoods.ts'
-import { hearts } from '../constants.ts'
+import { useGlobalContext } from '../context/globalContext'
+import { createUserMood } from '../apis/userMoods'
+import { hearts } from '../constants'
 
 export const HeartPage = () => {
     const { user, signout } = useGlobalContext();
