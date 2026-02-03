@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import './HeartPage.css'
+import './MoodPage.css'
 import { useGlobalContext } from '../context/globalContext'
 import { createUserMood } from '../apis/userMoods'
 import { hearts } from '../constants'
