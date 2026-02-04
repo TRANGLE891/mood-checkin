@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import './DiaryNotePage.css'
 import { useGlobalContext } from '../context/globalContext'
-import { getUserMoodsByUserId, updateUserMood } from '../apis/userMoods'
+import { getUserMoodsByUserId, suggestActivity, updateUserMood } from '../apis/userMoods'
 import type { UserMood } from '../types/UserMood'
 import { hearts } from '../constants'
 
@@ -20,12 +20,11 @@ export const DiaryNotePage = () => {
         return Math.random();
     }, [])
 
-    useEffect(() => {
+    const getUserMood = useCallback(() => {
         if (!userMoodId || !user?.id) {
             setIsLoadingUserMood(false);
             return;
         }
-
         getUserMoodsByUserId(user.id).then(response => {
             const foundUserMood = response.data?.data?.find(item => `${item.id}` === userMoodId);
             if (foundUserMood) {
@@ -38,6 +37,10 @@ export const DiaryNotePage = () => {
             setIsLoadingUserMood(false);
         })
     }, [user?.id, userMoodId])
+
+    useEffect(() => {
+        getUserMood();
+    }, [getUserMood])
 
     if (isLoadingUserMood) {
         return <div>Loading user mood...</div>;
@@ -77,6 +80,18 @@ export const DiaryNotePage = () => {
 
     const handleBack = () => {
         navigate('/heart')
+    }
+
+    const handleSuggestActivity = () => {
+        if (!userMood) {
+            throw new Error('No user mood entry to suggest activity for');
+        }
+        suggestActivity(`${userMood.id}`).then((response) => {
+            if (response.status === 200) {
+                console.log('Suggested activity fetched successfully', response.data);
+                getUserMood();
+            }
+        })
     }
 
     return (
@@ -122,10 +137,18 @@ export const DiaryNotePage = () => {
                 </div>
 
                 <section className="cta-area">
-                    <p className="cta-question">Would you like suggestion for an activity?</p>
-                    <button className="cta-button" type="button">
-                        Yes, please.
-                    </button>
+                    {userMood.suggestedActivity ? (
+                        <>
+                            <p className="cta-question">Suggested Activity:</p>
+                            <p className="cta-activity">{userMood.suggestedActivity}</p>
+                        </>
+                    ) : (
+                        <div>
+                            <p className="cta-question">Would you like suggestion for an activity?</p>
+                            <button className="cta-button" type="button" onClick={handleSuggestActivity}>
+                                Yes, please.
+                            </button>
+                        </div>)}
                 </section>
 
                 <footer className="dairy-footer">Life is like a box of chocolates—you never know what flavor you’ll get tomorrow. Live to discover.</footer>

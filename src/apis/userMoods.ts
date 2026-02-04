@@ -42,4 +42,12 @@ export const updateUserMood = async (payload: Partial<Pick<UserMood, 'id' | 'not
             'Content-Type': 'application/json'
         }
     });
-}       
+}
+
+export const suggestActivity = async (userMoodId: string) => {
+    return axios.put(`${API_PATH}/${userMoodId}/suggest-activity`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+}
