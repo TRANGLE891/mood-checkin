@@ -10,11 +10,12 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
     const savedUserName = localStorage.getItem('username');
     const [user, setUser] = useState<User | undefined>();
     const [moods, setMoods] = useState<Record<string, Mood>>({});
+    const [isLoadingUser, setIsLoadingUser] = useState(true);
     const navigate = useNavigate();
     const signout = useCallback(() => {
         localStorage.removeItem('username');
         setUser(undefined);
-        navigate('/heart')
+        navigate('/')
     }, [navigate])
 
     // check if current user in local storage exist
@@ -39,7 +40,9 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
                     setUser(undefined);
                     localStorage.removeItem('username');
                 }
-            })
+            }).finally(() => {
+                setIsLoadingUser(false);
+            });
         }
     }, [savedUserName])
 
@@ -48,7 +51,8 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
             user,
             setUser,
             moods,
-            signout
+            signout,
+            isLoadingUser
         }}>
             {children}
         </GlobalContext.Provider>

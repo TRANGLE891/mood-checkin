@@ -6,11 +6,13 @@ export const GlobalContext = createContext<{
     setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
     moods: Record<string, Mood>;
     signout: () => void;
+    isLoadingUser: boolean;
 }>({
     user: undefined,
     setUser: () => { },
     moods: {},
-    signout: () => { }
+    signout: () => { },
+    isLoadingUser: false,
 });
 
 import { useContext } from "react";
