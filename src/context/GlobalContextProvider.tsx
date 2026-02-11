@@ -44,6 +44,9 @@ export const GlobalContextProvider: React.FC<{ children: React.ReactNode }> = ({
                 setIsLoadingUser(false);
             });
         }
+        else {
+            setIsLoadingUser(false);
+        }
     }, [savedUserName])
 
     return (
